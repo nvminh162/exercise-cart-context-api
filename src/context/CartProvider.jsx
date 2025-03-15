@@ -73,6 +73,22 @@ const CartProvider = ({ children }) => {
         });
     };
 
+    //Delete all
+    const handleRemoveAllItems = () => {
+        localStorage.removeItem("cart");
+        setCartItems([]);
+
+        toast.info("Đã xóa tất cả khỏi giỏ hàng!", {
+            position: "bottom-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "light",
+        });
+    };
+
     // Change quantity of item in cart
     const updateQuantity = (event, id) => {
         const newQuantity = parseInt(event.target.value, 10);
@@ -97,7 +113,7 @@ const CartProvider = ({ children }) => {
 
 
     return (
-        <CartContext.Provider value={{ cartItems, addToCart, handleRemoveItem, updateQuantity }}>
+        <CartContext.Provider value={{ cartItems, addToCart, handleRemoveItem, updateQuantity, handleRemoveAllItems }}>
             {children}
             <ToastContainer />
         </CartContext.Provider>

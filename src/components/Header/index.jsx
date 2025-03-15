@@ -55,53 +55,58 @@ const Header = () => {
                       Không có món ăn nào
                     </div>
                   ) : (
-                    context.cartItems.slice(0, 5).map((item) => (
-                      <MenuItem key={item.id}>
-                        <a
-                          href="#"
-                          className="block p-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
-                        >
-                          <div className="flex items-center gap-x-5">
-                            <img
-                              className="h-[60px] w-[60px] object-cover"
-                              src={item.image}
-                              alt={item.name}
-                            />
-                            <div className="w-40">
-                              <h3 className="font-bold text-base break-words">
-                                {item.name}
-                              </h3>
-                              <i>
+                    <>
+                      <div className="flex justify-end">
+                        <button onClick={() => context.handleRemoveAllItems()} className="text-pink-400 mr-4 hover:text-black">Xoá tất cả</button>
+                      </div>
+                      {context.cartItems.slice(0, 5).map((item) => (
+                        <MenuItem key={item.id}>
+                          <a
+                            href="#"
+                            className="block p-2 text-sm text-gray-700 data-focus:bg-gray-100 data-focus:text-gray-900 data-focus:outline-hidden"
+                          >
+                            <div className="flex items-center gap-x-5">
+                              <img
+                                className="h-[60px] w-[60px] object-cover"
+                                src={item.image}
+                                alt={item.name}
+                              />
+                              <div className="w-40">
+                                <h3 className="font-bold text-base break-words">
+                                  {item.name}
+                                </h3>
+                                <i>
+                                  {new Intl.NumberFormat("vi-VN").format(
+                                    item.price
+                                  )}
+                                  {" đ"}
+                                </i>
+                              </div>
+                              <input
+                                className="w-10 h-10 rounded-md border border-gray-300 text-base text-center font-medium"
+                                value={item.quantity}
+                                onChange={(e) => context.updateQuantity(e, item.id)}
+                                type="number"
+                                name="so_luong"
+                                id="so_luong"
+                              />
+                              <h3 className="w-24 font-medium text-base break-words text-center">
                                 {new Intl.NumberFormat("vi-VN").format(
-                                  item.price
+                                  item.price * item.quantity
                                 )}
                                 {" đ"}
-                              </i>
+                              </h3>
+                              <button
+                                className="text-black hover:text-red-500 text-xl"
+                                onClick={() => context.handleRemoveItem(item.id)}
+                              >
+                                <FontAwesomeIcon icon={faTrashCan} />
+                              </button>
                             </div>
-                            <input
-                              className="w-10 h-10 rounded-md border border-gray-300 text-base text-center font-medium"
-                              value={item.quantity}
-                              onChange={(e) => context.updateQuantity(e, item.id)}
-                              type="number"
-                              name="so_luong"
-                              id="so_luong"
-                            />
-                            <h3 className="w-24 font-medium text-base break-words text-center">
-                              {new Intl.NumberFormat("vi-VN").format(
-                                item.price * item.quantity
-                              )}
-                              {" đ"}
-                            </h3>
-                            <button
-                              className="text-black hover:text-red-500 text-xl"
-                              onClick={() => context.handleRemoveItem(item.id)}
-                            >
-                              <FontAwesomeIcon icon={faTrashCan} />
-                            </button>
-                          </div>
-                        </a>
-                      </MenuItem>
-                    ))
+                          </a>
+                        </MenuItem>
+                      ))}
+                    </>
                   )}
                   {context.cartItems.length > 0 && (
                     <div className="p-5">
